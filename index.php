@@ -19,15 +19,21 @@
         style="background-color: #190e5f"
         <nav class="navbar navbar-light bg-light" >
           <div class="container-fluid">
+            <table width="200" border="1">
+              <tbody>
+              <div class="btn-container">
+            <button name="increase-font" id="increase-font" title="Aumentar fonte">Aumentar Fonte</button>
+            <button name="decrease-font" id="decrease-font" title="Diminuir fonte">Diminuir Fonte</button>
+        </div>
+              </tbody>
+            </table>
             <a class="navbar-brand"></a>
             <div class="d-flex">
             <a class="btn btn-danger" href="./Login/entrar.php" role="button">Login</button></a>
           </div>
           </div>
         </nav>
-                  ></div>
-             <div class="navbar navbar-secondary">
-        <img src="./images/Logo.png" alt="" />
+        </div>
       </div>
     </header>
 
@@ -41,12 +47,60 @@
         ><input placeholder="Digita aqui seu nome" name="nome" class="input" required />
       </div>
 
+      <div class="form-group" id="i5a5x">
+        <label class="label" id="icnie">CEP</label
+        ><input
+          type="text"
+          name="cep"
+          placeholder="Digita aqui o CEP"
+          class="input"
+          required
+        />
+      </div>
+
+      <div class="form-group" id="i5a6x">
+        <label class="label" id="icnie">Rua</label
+        ><input
+          type="text"
+          name="rua"
+          disabled=""
+          placeholder="Rua"
+          class="input"
+          required
+        />
+      </div>
+
+      <div class="form-group" id="i5a7x">
+        <label class="label" id="icnie">Bairro</label
+        ><input
+          type="text"
+          name="bairro"
+          disabled=""
+          placeholder="Bairro"
+          class="input"
+          required
+        />
+      </div>
+
       <div class="form-group" id="i5a4x">
         <label class="label" id="icnie">Cidade</label
         ><input
           type="text"
           name="cidade"
-          placeholder="Digita aqui sua cidade"
+          disabled=""
+          placeholder="Cidade"
+          class="input"
+          required
+        />
+      </div>
+
+      <div class="form-group" id="i5a8x">
+        <label class="label" id="icnie">Estado</label
+        ><input
+          type="text"
+          name="estado"
+          disabled=""
+          placeholder="Estado"
           class="input"
           required
         />
@@ -965,5 +1019,56 @@ form.addEventListener('submit', function(e) {
     }
 });
 </script>
+
+<script>
+(function(){
+
+const cep = document.querySelector("input[name=cep]");
+
+cep.addEventListener('blur', e=> {
+    const value = cep.value.replace(/[^0-9]+/, '');
+    const url = `https://viacep.com.br/ws/${value}/json/`;
+    
+    fetch(url)
+    .then( response => response.json())
+    .then( json => {
+        
+        if( json.logradouro ) {
+          document.querySelector('input[name=rua]').value = json.logradouro;
+          document.querySelector('input[name=bairro]').value = json.bairro;
+          document.querySelector('input[name=cidade]').value = json.localidade;
+          document.querySelector('input[name=estado]').value = json.uf;
+        }
+    
+    });
+    
+    
+});
+})();
+</script>
+
+<script type="text/javascript">
+            window.onload = function() {
+                var elementBody = document.querySelector('body');
+                var elementBtnIncreaseFont = document.getElementById('increase-font');
+                var elementBtnDecreaseFont = document.getElementById('decrease-font');
+                // Padrão de tamanho, equivale a 100% do valor definido no Body
+                var fontSize = 100;
+                // Valor de incremento ou decremento, equivale a 10% do valor do Body
+                var increaseDecrease = 10;
+
+                // Evento de click para aumentar a fonte
+                elementBtnIncreaseFont.addEventListener('click', function(event) {
+                    fontSize = fontSize + increaseDecrease;
+                    elementBody.style.fontSize = fontSize + '%';
+                });
+
+                // Evento de click para diminuir a fonte
+                elementBtnDecreaseFont.addEventListener('click', function(event) {
+                    fontSize = fontSize - increaseDecrease;
+                    elementBody.style.fontSize = fontSize + '%';
+                });
+            }
+        </script>
 
 </html>
